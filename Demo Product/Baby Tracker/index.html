@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baby Meal Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --cream: #fef9f3;
+      --sage: #b8c9a8;
+      --sage-dark: #8fa876;
+      --coral: #e8a598;
+      --coral-dark: #d48578;
+      --navy: #2c3e50;
+      --navy-light: #4a6278;
+      --soft-pink: #f5e6e0;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(160deg, #fef9f3 0%, #f5e6e0 100%);
+      min-height: 100vh;
+      color: var(--navy);
+    }
+
+    /* Landing Screen */
+    #landing-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      transition: opacity 0.4s ease;
+    }
+
+    #landing-screen.hidden {
+      display: none;
+    }
+
+    .landing-card {
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(44, 62, 80, 0.12);
+    }
+
+    .landing-card h1 {
+      font-size: 1.75rem;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .landing-card .subtitle {
+      text-align: center;
+      color: var(--navy-light);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+
+    .photo-upload {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .photo-preview {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--soft-pink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+      border: 3px dashed var(--sage);
+      transition: all 0.2s ease;
+    }
+
+    .photo-preview:hover {
+      border-color: var(--sage-dark);
+      background: #f0ebe0;
+    }
+
+    .photo-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-preview .placeholder {
+      color: var(--navy-light);
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 8px;
+    }
+
+    .photo-upload input {
+      display: none;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e8e4df;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--sage);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
+      color: white;
+      margin-top: 8px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(143, 168, 118, 0.4);
+    }
+
+    /* Main Tracker Screen */
+    #tracker-screen {
+      min-height: 100vh;
+      padding: 20px;
+      padding-bottom: 100px;
+      display: none;
+    }
+
+    #tracker-screen.visible {
+      display: block;
+    }
+
+    .tracker-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .date-selector-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .date-selector-row label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--navy);
+    }
+
+    .date-selector-row input[type="date"] {
+      padding: 10px 14px;
+      border: 2px solid #e8e4df;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 1rem;
+    }
+
+    .date-selector-row input[type="date"]:focus {
+      outline: none;
+      border-color: var(--sage);
+    }
+
+    /* Stat boxes - top row */
+    .stat-boxes {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-box {
+      padding: 20px 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      color: white;
+      border: none;
+      font-family: inherit;
+    }
+
+    .stat-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .stat-box .stat-icon {
+      font-size: 1.75rem;
+    }
+
+    .stat-box .stat-label {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .stat-box .stat-count {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .stat-box.bowel {
+      background: linear-gradient(135deg, #d4a574 0%, #c49463 100%);
+    }
+
+    .stat-box.pee {
+      background: linear-gradient(135deg, #7eb8da 0%, #5a9fc4 100%);
+    }
+
+    .stat-box.meal {
+      background: linear-gradient(135deg, var(--coral) 0%, var(--coral-dark) 100%);
+    }
+
+    /* Today's Meals section */
+    .progress-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(44, 62, 80, 0.08);
+    }
+
+    .progress-card h3 {
+      font-size: 0.95rem;
+      color: var(--navy-light);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .meal-progress-bar {
+      height: 12px;
+      background: #e8e4df;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .meal-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--coral) 0%, var(--coral-dark) 100%);
+      border-radius: 6px;
+      transition: width 0.3s ease;
+    }
+
+    .meal-progress-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .meal-progress-text span {
+      color: var(--navy-light);
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .compare-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .compare-badge.up {
+      background: rgba(143, 168, 118, 0.2);
+      color: var(--sage-dark);
+    }
+
+    .compare-badge.down {
+      background: rgba(212, 165, 116, 0.25);
+      color: #c49463;
+    }
+
+    .compare-badge.same {
+      background: rgba(126, 184, 218, 0.2);
+      color: #5a9fc4;
+    }
+
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .baby-info-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .baby-photo-small {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .baby-name-display {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .baby-age {
+      font-size: 0.85rem;
+      color: var(--navy-light);
+    }
+
+    .growth-badge {
+      font-size: 0.8rem;
+      color: var(--navy-light);
+      background: var(--cream);
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+
+    .growth-badge span {
+      margin-right: 8px;
+    }
+
+    .btn-settings {
+      padding: 10px 16px;
+      background: white;
+      border: 2px solid #e8e4df;
+      border-radius: 10px;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--navy);
+      font-size: 0.9rem;
+    }
+
+    .btn-settings:hover {
+      border-color: var(--sage);
+      background: var(--cream);
+    }
+
+
+    /* Event Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(44, 62, 80, 0.5);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 24px 24px 0 0;
+      width: 100%;
+      max-width: 480px;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 24px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.visible .modal {
+      transform: translateY(0);
+    }
+
+    .modal h3 {
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      color: var(--navy);
+    }
+
+    .modal .form-group textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .modal-actions .btn {
+      flex: 1;
+    }
+
+    .btn-cancel {
+      background: #e8e4df;
+      color: var(--navy);
+    }
+
+    .btn-cancel:hover {
+      background: #ddd9d4;
+    }
+
+    /* History Section */
+    .history-section {
+      margin-top: 28px;
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .history-header h2 {
+      font-size: 1.1rem;
+      color: var(--navy);
+    }
+
+    .history-list {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(44, 62, 80, 0.08);
+    }
+
+    .history-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 18px;
+      border-bottom: 1px solid #f0ebe0;
+      transition: background 0.2s;
+    }
+
+    .history-item:last-child {
+      border-bottom: none;
+    }
+
+    .history-item:hover {
+      background: var(--cream);
+    }
+
+    .history-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .history-icon.bowel { background: rgba(212, 165, 116, 0.3); }
+    .history-icon.pee { background: rgba(126, 184, 218, 0.3); }
+    .history-icon.meal, .history-icon.ate { background: rgba(232, 165, 152, 0.3); }
+
+    .history-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .history-type {
+      font-weight: 600;
+      color: var(--navy);
+      font-size: 0.95rem;
+    }
+
+    .history-note {
+      font-size: 0.9rem;
+      color: var(--navy-light);
+      margin-top: 2px;
+    }
+
+    .history-time {
+      font-size: 0.8rem;
+      color: var(--navy-light);
+      white-space: nowrap;
+    }
+
+    .history-item-actions {
+      display: flex;
+      gap: 8px;
+      opacity: 0.7;
+    }
+
+    .history-item-actions button {
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      background: var(--navy-light);
+      color: white;
+    }
+
+    .history-item-actions button.delete {
+      background: var(--coral-dark);
+    }
+
+    @media (max-width: 500px) {
+      .stat-boxes {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .empty-history {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--navy-light);
+      font-size: 0.95rem;
+    }
+
+    /* Settings Modal */
+    .settings-section {
+      margin-bottom: 24px;
+    }
+
+    .settings-section h4 {
+      font-size: 0.95rem;
+      color: var(--navy-light);
+      margin-bottom: 12px;
+    }
+
+    .growth-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 400px) {
+      .event-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .growth-inputs {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Landing Screen -->
+  <section id="landing-screen">
+    <div class="landing-card">
+      <h1>👶 Welcome!</h1>
+      <p class="subtitle">Let's set up your baby's profile</p>
+
+      <form id="baby-form">
+        <div class="photo-upload">
+          <div class="photo-preview" id="photo-preview" title="Tap to add photo">
+            <span class="placeholder">📷<br>Add photo</span>
+            <img id="photo-img" style="display: none;" alt="Baby photo" />
+          </div>
+          <input type="file" id="photo-input" accept="image/*" />
+        </div>
+
+        <div class="form-group">
+          <label for="baby-name">Baby's Name</label>
+          <input type="text" id="baby-name" placeholder="e.g. Emma" required />
+        </div>
+
+        <div class="form-group">
+          <label for="baby-dob">Birth Date</label>
+          <input type="date" id="baby-dob" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Start Tracking</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Main Tracker Screen -->
+  <main id="tracker-screen">
+    <div class="header-bar">
+      <div class="baby-info-header">
+        <img class="baby-photo-small" id="baby-photo-header" src="" alt="Baby" />
+        <div>
+          <div class="baby-name-display" id="baby-name-header"></div>
+          <div class="baby-age" id="baby-age-header"></div>
+          <div class="growth-badge" id="growth-badge" style="display: none;">
+            <span id="weight-display"></span>
+            <span id="height-display"></span>
+          </div>
+        </div>
+      </div>
+      <button class="btn-settings" id="settings-btn">⚙️ Edit Profile</button>
+    </div>
+
+    <div class="tracker-content">
+      <div class="date-selector-row">
+        <label for="date-picker">View / edit day</label>
+        <input type="date" id="date-picker" />
+      </div>
+
+      <div class="stat-boxes">
+        <button class="stat-box bowel" data-type="bowel" type="button">
+          <span class="stat-icon">💩</span>
+          <span class="stat-label">Bowel</span>
+          <span class="stat-count" id="bowel-count">0</span>
+        </button>
+        <button class="stat-box pee" data-type="pee" type="button">
+          <span class="stat-icon">💧</span>
+          <span class="stat-label">Pee</span>
+          <span class="stat-count" id="pee-count">0</span>
+        </button>
+        <button class="stat-box meal" data-type="meal" type="button">
+          <span class="stat-icon">🍼</span>
+          <span class="stat-label">Meal</span>
+          <span class="stat-count" id="meal-count">0</span>
+        </button>
+      </div>
+
+      <div class="progress-card">
+        <h3 id="meals-section-title">Today's meals</h3>
+        <div class="meal-progress-bar">
+          <div class="meal-progress-fill" id="meal-progress-fill" style="width: 0%"></div>
+        </div>
+        <div class="meal-progress-text" id="meal-progress-text">0 / — meals</div>
+        <div class="compare-badge same" id="compare-badge" style="display: none;">Set goal in Profile</div>
+      </div>
+
+      <section class="history-section">
+        <div class="history-header">
+          <h2>History</h2>
+        </div>
+        <div class="history-list" id="history-list">
+          <div class="empty-history">No events for this day. Tap a box above to add one!</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Event Modal -->
+  <div class="modal-overlay" id="event-modal">
+    <div class="modal">
+      <h3 id="modal-title">Log Event</h3>
+      <form id="event-form">
+        <input type="hidden" id="event-type" />
+        <input type="hidden" id="event-id" />
+        <div class="form-group">
+          <label for="event-note">Notes (optional)</label>
+          <textarea id="event-note" placeholder="Any details..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-cancel" id="modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+        <button type="button" class="btn btn-cancel" id="modal-delete" style="display: none; margin-top: 8px; background: var(--coral-dark); color: white;">Delete</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settings-modal">
+    <div class="modal">
+      <h3>Edit Baby Profile</h3>
+      <form id="settings-form">
+        <div class="photo-upload">
+          <div class="photo-preview" id="settings-photo-preview" title="Tap to change photo">
+            <span class="placeholder">📷<br>Change</span>
+            <img id="settings-photo-img" style="display: none;" alt="Baby photo" />
+          </div>
+          <input type="file" id="settings-photo-input" accept="image/*" />
+        </div>
+
+        <div class="form-group">
+          <label for="settings-name">Baby's Name</label>
+          <input type="text" id="settings-name" />
+        </div>
+
+        <div class="form-group">
+          <label for="settings-dob">Birth Date</label>
+          <input type="date" id="settings-dob" />
+        </div>
+
+        <div class="settings-section">
+          <h4>Daily meal goal</h4>
+          <div class="form-group">
+            <label for="settings-meal-goal">Target meals per day</label>
+            <input type="number" id="settings-meal-goal" min="1" max="20" placeholder="e.g. 6" />
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h4>Growth</h4>
+          <div class="growth-inputs">
+            <div class="form-group">
+              <label for="settings-weight">Weight (kg)</label>
+              <input type="number" id="settings-weight" step="0.01" min="0" placeholder="e.g. 5.2" />
+            </div>
+            <div class="form-group">
+              <label for="settings-height">Height (cm)</label>
+              <input type="number" id="settings-height" step="0.1" min="0" placeholder="e.g. 58.5" />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions" style="margin-top: 24px;">
+          <button type="button" class="btn btn-cancel" id="settings-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'baby_meal_tracker';
+    const EVENTS_KEY = 'baby_events';
+
+    let babyData = {
+      name: '',
+      dob: '',
+      photo: null,
+      weight: null,
+      height: null,
+      mealGoal: 6
+    };
+
+    let events = [];
+    let selectedDate = new Date().toISOString().split('T')[0];
+
+    // Initialize
+    function init() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      const savedEvents = localStorage.getItem(EVENTS_KEY);
+
+      if (saved) {
+        babyData = { ...babyData, ...JSON.parse(saved) };
+        babyData.mealGoal = babyData.mealGoal || 6;
+      }
+
+      if (savedEvents) {
+        events = JSON.parse(savedEvents);
+      }
+
+      if (babyData.name && babyData.dob) {
+        showTracker();
+      } else {
+        document.getElementById('landing-screen').classList.remove('hidden');
+        setDefaultDob();
+      }
+
+      setupEventListeners();
+    }
+
+    function setDefaultDob() {
+      const dobInput = document.getElementById('baby-dob');
+      if (!dobInput.value) {
+        const today = new Date().toISOString().split('T')[0];
+        dobInput.value = today;
+      }
+    }
+
+    function setupEventListeners() {
+      // Photo upload (landing)
+      const photoPreview = document.getElementById('photo-preview');
+      const photoInput = document.getElementById('photo-input');
+      photoPreview?.addEventListener('click', () => photoInput?.click());
+      photoInput?.addEventListener('change', (e) => handlePhotoSelect(e, 'landing'));
+
+      // Baby form submit
+      document.getElementById('baby-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveBabyFromLanding();
+      });
+
+      // Event buttons
+      document.querySelectorAll('.event-btn').forEach(btn => {
+        btn.addEventListener('click', () => openEventModal(btn.dataset.type));
+      });
+
+      // Event modal
+      document.getElementById('modal-cancel')?.addEventListener('click', closeEventModal);
+      document.getElementById('event-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveEvent();
+      });
+
+      // Settings
+      document.getElementById('settings-btn')?.addEventListener('click', openSettings);
+      document.getElementById('settings-cancel')?.addEventListener('click', closeSettings);
+
+      // Settings photo
+      document.getElementById('settings-photo-preview')?.addEventListener('click', () => {
+        document.getElementById('settings-photo-input')?.click();
+      });
+      document.getElementById('settings-photo-input')?.addEventListener('change', (e) => handlePhotoSelect(e, 'settings'));
+
+      document.getElementById('settings-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveSettings();
+      });
+
+      document.getElementById('date-picker')?.addEventListener('change', (e) => {
+        selectedDate = e.target.value || new Date().toISOString().split('T')[0];
+        refreshForDate();
+      });
+
+      document.querySelectorAll('.stat-box').forEach(box => {
+        box.addEventListener('click', () => openEventModal(box.dataset.type));
+      });
+
+      document.getElementById('modal-delete')?.addEventListener('click', deleteEvent);
+    }
+
+    function handlePhotoSelect(e, context) {
+      const file = e.target.files?.[0];
+      if (!file || !file.type.startsWith('image/')) return;
+
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const dataUrl = ev.target?.result;
+        if (context === 'landing') {
+          document.getElementById('photo-img').src = dataUrl;
+          document.getElementById('photo-img').style.display = 'block';
+          document.querySelector('#photo-preview .placeholder').style.display = 'none';
+          babyData.photo = dataUrl;
+        } else {
+          document.getElementById('settings-photo-img').src = dataUrl;
+          document.getElementById('settings-photo-img').style.display = 'block';
+          document.querySelector('#settings-photo-preview .placeholder').style.display = 'none';
+          babyData.photo = dataUrl;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function saveBabyFromLanding() {
+      babyData.name = document.getElementById('baby-name').value.trim();
+      babyData.dob = document.getElementById('baby-dob').value;
+      babyData.photo = babyData.photo || null;
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(babyData));
+      showTracker();
+    }
+
+    function showTracker() {
+      document.getElementById('landing-screen').classList.add('hidden');
+      document.getElementById('tracker-screen').classList.add('visible');
+
+      // Update header
+      document.getElementById('baby-name-header').textContent = babyData.name;
+      document.getElementById('baby-age-header').textContent = getAgeText(babyData.dob);
+
+      const headerPhoto = document.getElementById('baby-photo-header');
+      if (babyData.photo) {
+        headerPhoto.src = babyData.photo;
+        headerPhoto.style.display = 'block';
+      } else {
+        headerPhoto.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle fill="%23b8c9a8" cx="50" cy="50" r="50"/><text fill="%232c3e50" x="50" y="58" font-size="40" text-anchor="middle" font-family="sans-serif">👶</text></svg>';
+      }
+
+      const growthBadge = document.getElementById('growth-badge');
+      const weightDisplay = document.getElementById('weight-display');
+      const heightDisplay = document.getElementById('height-display');
+      if (babyData.weight != null || babyData.height != null) {
+        growthBadge.style.display = 'block';
+        weightDisplay.textContent = babyData.weight != null ? `${babyData.weight} kg` : '';
+        heightDisplay.textContent = babyData.height != null ? `${babyData.height} cm` : '';
+      } else {
+        growthBadge.style.display = 'none';
+      }
+
+      document.getElementById('date-picker').value = selectedDate;
+      refreshForDate();
+    }
+
+    function refreshForDate() {
+      renderStatCounts();
+      renderMealProgress();
+      renderHistory();
+    }
+
+    function getCountForDate(type, dateStr) {
+      const isMeal = type === 'meal' || type === 'ate';
+      return events.filter(ev => {
+        if (!ev.time || !ev.time.startsWith(dateStr)) return false;
+        if (type === 'bowel') return ev.type === 'bowel';
+        if (type === 'pee') return ev.type === 'pee';
+        if (type === 'meal') return ev.type === 'meal' || ev.type === 'ate';
+        return false;
+      }).length;
+    }
+
+    function renderStatCounts() {
+      document.getElementById('bowel-count').textContent = getCountForDate('bowel', selectedDate);
+      document.getElementById('pee-count').textContent = getCountForDate('pee', selectedDate);
+      document.getElementById('meal-count').textContent = getCountForDate('meal', selectedDate);
+    }
+
+    function isMealEvent(ev) {
+      return ev.type === 'meal' || ev.type === 'ate';
+    }
+
+    function getMealsForDate(dateStr) {
+      return events.filter(ev => isMealEvent(ev) && ev.time && ev.time.startsWith(dateStr)).length;
+    }
+
+    function renderMealProgress() {
+      const viewingDate = selectedDate;
+      const yesterday = new Date(new Date(viewingDate).getTime() - 86400000).toISOString().split('T')[0];
+
+      const mealsToday = getMealsForDate(viewingDate);
+      const mealsYesterday = getMealsForDate(yesterday);
+
+      const titleEl = document.getElementById('meals-section-title');
+      const todayStr = new Date().toISOString().split('T')[0];
+      titleEl.textContent = viewingDate === todayStr ? "Today's meals" : viewingDate + " meals";
+      const goal = babyData.mealGoal || 6;
+
+      const progressFill = document.getElementById('meal-progress-fill');
+      const progressText = document.getElementById('meal-progress-text');
+      const compareBadge = document.getElementById('compare-badge');
+
+      const pct = goal > 0 ? Math.min(100, (mealsToday / goal) * 100) : 0;
+      progressFill.style.width = pct + '%';
+
+      if (goal > 0) {
+        progressText.innerHTML = `${mealsToday} <span>/ ${goal} meals</span>`;
+      } else {
+        progressText.innerHTML = `${mealsToday} <span>/ — meals</span>`;
+      }
+
+      compareBadge.style.display = 'block';
+      compareBadge.className = 'compare-badge';
+      const prevLabel = viewingDate === todayStr ? 'yesterday' : 'previous day';
+      if (mealsYesterday === 0 && mealsToday === 0) {
+        compareBadge.textContent = `No meals ${prevLabel}`;
+        compareBadge.classList.add('same');
+      } else if (mealsYesterday === 0) {
+        compareBadge.textContent = `+${mealsToday} vs ${prevLabel}`;
+        compareBadge.classList.add('up');
+      } else if (mealsToday > mealsYesterday) {
+        compareBadge.textContent = `+${mealsToday - mealsYesterday} more than ${prevLabel}`;
+        compareBadge.classList.add('up');
+      } else if (mealsToday < mealsYesterday) {
+        compareBadge.textContent = `${mealsToday - mealsYesterday} less than ${prevLabel}`;
+        compareBadge.classList.add('down');
+      } else {
+        compareBadge.textContent = `Same as ${prevLabel}`;
+        compareBadge.classList.add('same');
+      }
+    }
+
+    function getAgeText(dobStr) {
+      if (!dobStr) return '';
+      const dob = new Date(dobStr);
+      const now = new Date();
+      const days = Math.floor((now - dob) / (1000 * 60 * 60 * 24));
+      if (days < 7) return `${days} day${days !== 1 ? 's' : ''} old`;
+      if (days < 30) return `${Math.floor(days / 7)} week${Math.floor(days / 7) !== 1 ? 's' : ''} old`;
+      if (days < 365) return `${Math.floor(days / 30)} month${Math.floor(days / 30) !== 1 ? 's' : ''} old`;
+      return `${Math.floor(days / 365)} year${Math.floor(days / 365) !== 1 ? 's' : ''} old`;
+    }
+
+    function openEventModal(type, editEvent = null) {
+      const titles = { bowel: '💩 Bowel Movement', pee: '💧 Pee', meal: '🍼 Meal' };
+      document.getElementById('modal-title').textContent = editEvent ? 'Edit Event' : titles[type];
+      document.getElementById('event-type').value = type;
+      document.getElementById('event-note').value = editEvent ? (editEvent.note || '') : '';
+      document.getElementById('event-id').value = editEvent ? editEvent.id : '';
+      document.getElementById('modal-delete').style.display = editEvent ? 'block' : 'none';
+      document.getElementById('event-modal').classList.add('visible');
+    }
+
+    function closeEventModal() {
+      document.getElementById('event-modal').classList.remove('visible');
+    }
+
+    function saveEvent() {
+      const type = document.getElementById('event-type').value;
+      const note = document.getElementById('event-note').value.trim();
+      const eventId = document.getElementById('event-id').value;
+
+      if (eventId) {
+        const ev = events.find(e => e.id === eventId);
+        if (ev) {
+          ev.note = note || null;
+          localStorage.setItem(EVENTS_KEY, JSON.stringify(events));
+          refreshForDate();
+          closeEventModal();
+          return;
+        }
+      }
+
+      const d = new Date();
+      const timeStr = selectedDate + 'T' + d.toTimeString().slice(0, 8);
+      const event = {
+        id: Date.now().toString(),
+        type,
+        note: note || null,
+        time: timeStr
+      };
+
+      events.unshift(event);
+      localStorage.setItem(EVENTS_KEY, JSON.stringify(events));
+      refreshForDate();
+      closeEventModal();
+    }
+
+    function deleteEvent() {
+      const eventId = document.getElementById('event-id').value;
+      if (eventId) {
+        events = events.filter(e => e.id !== eventId);
+        localStorage.setItem(EVENTS_KEY, JSON.stringify(events));
+        refreshForDate();
+      }
+      closeEventModal();
+    }
+
+    function renderHistory() {
+      const listEl = document.getElementById('history-list');
+      const dayEvents = events.filter(ev => ev.time && ev.time.startsWith(selectedDate))
+        .sort((a, b) => new Date(b.time) - new Date(a.time));
+
+      if (dayEvents.length === 0) {
+        listEl.innerHTML = '<div class="empty-history">No events for this day. Tap a box above to add one!</div>';
+        return;
+      }
+
+      const icons = { bowel: '💩', pee: '💧', meal: '🍼', ate: '🍼' };
+      const labels = { bowel: 'Bowel Movement', pee: 'Pee', meal: 'Meal', ate: 'Meal' };
+
+      listEl.innerHTML = dayEvents.map(ev => {
+        const d = new Date(ev.time);
+        const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        return `
+          <div class="history-item" data-id="${ev.id}">
+            <div class="history-icon ${ev.type}">${icons[ev.type]}</div>
+            <div class="history-content">
+              <div class="history-type">${labels[ev.type]}</div>
+              ${ev.note ? `<div class="history-note">${escapeHtml(ev.note)}</div>` : ''}
+            </div>
+            <div class="history-time">${timeStr}</div>
+            <div class="history-item-actions">
+              <button type="button" class="edit-btn">Edit</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      listEl.querySelectorAll('.history-item').forEach(item => {
+        const ev = events.find(e => e.id === item.dataset.id);
+        if (ev) {
+          item.querySelector('.edit-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            openEventModal(ev.type, ev);
+          });
+        }
+      });
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function openSettings() {
+      document.getElementById('settings-name').value = babyData.name || '';
+      document.getElementById('settings-dob').value = babyData.dob || '';
+      document.getElementById('settings-meal-goal').value = babyData.mealGoal ?? '';
+      document.getElementById('settings-weight').value = babyData.weight ?? '';
+      document.getElementById('settings-height').value = babyData.height ?? '';
+
+      const preview = document.getElementById('settings-photo-preview');
+      const img = document.getElementById('settings-photo-img');
+      const placeholder = preview?.querySelector('.placeholder');
+      if (babyData.photo) {
+        img.src = babyData.photo;
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+      } else {
+        img.style.display = 'none';
+        placeholder.style.display = 'block';
+      }
+
+      document.getElementById('settings-modal').classList.add('visible');
+    }
+
+    function closeSettings() {
+      document.getElementById('settings-modal').classList.remove('visible');
+    }
+
+    function saveSettings() {
+      babyData.name = document.getElementById('settings-name').value.trim();
+      babyData.dob = document.getElementById('settings-dob').value;
+
+      const mealGoal = document.getElementById('settings-meal-goal').value;
+      babyData.mealGoal = mealGoal ? parseInt(mealGoal, 10) : 6;
+
+      const weight = document.getElementById('settings-weight').value;
+      const height = document.getElementById('settings-height').value;
+      babyData.weight = weight ? parseFloat(weight) : null;
+      babyData.height = height ? parseFloat(height) : null;
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(babyData));
+      showTracker();
+      closeSettings();
+    }
+
+    init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milano Cortina 2026 — Medal Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="hero-image" aria-hidden="true">
+            <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&q=80" alt="">
+        </div>
+        <div class="header-inner">
+            <h1 class="logo">Milano Cortina 2026</h1>
+            <p class="tagline">Winter Olympics Medal Dashboard</p>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="dashboard-layout">
+            <aside class="upcoming-events-section">
+                <h2 class="events-title">Upcoming Events</h2>
+                <ul class="events-list" id="eventsList">
+                    <!-- Populated by JS -->
+                </ul>
+            </aside>
+            <section id="dashboard" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Medal Table</h2>
+                    <p class="event-status">79 of 116 events completed</p>
+                </div>
+                <div class="medal-table-wrapper">
+                    <table class="medal-table">
+                        <thead>
+                            <tr>
+                            <th>#</th>
+                            <th>Country</th>
+                            <th class="medal-gold" title="Gold">G</th>
+                            <th class="medal-silver" title="Silver">S</th>
+                            <th class="medal-bronze" title="Bronze">B</th>
+                            <th class="medal-total">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="medalTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Results from <a href="https://www.olympics.com/en/milano-cortina-2026/schedule" target="_blank" rel="noopener">Olympics.com</a> — Milano Cortina 2026</p>
+        <p>Photos from <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · Flags from <a href="https://flagcdn.com" target="_blank" rel="noopener">Flagcdn</a></p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <script>
+        (function() {
+            try {
+                var saved = localStorage.getItem('portfolio-theme');
+                if (saved === 'light' || saved === 'dark') {
+                    document.documentElement.setAttribute('data-theme', saved);
+                }
+            } catch (e) {}
+        })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soodong Park | Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <p class="page-note">This page was generated using Cursor and Vibe Coding.</p>
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="logo">Soodong Park</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">
+                    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="about" class="section hero-about">
+            <div class="hero-about-content">
+                <div class="hero-top">
+                    <div class="profile-image-wrapper">
+                        <img src="images/Soodong_Pic.JPG" alt="Soodong Park" class="profile-image" id="profileImage">
+                        <div class="profile-image-fallback" id="profileFallback">SP</div>
+                    </div>
+                    <div class="hero-name-section">
+                        <h1 class="hero-name">Soodong Park</h1>
+                        <p class="hero-title">Product Manager with Data Expertise</p>
+                        <a href="https://www.linkedin.com/in/soodongpark/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">LinkedIn</a>
+                        <button class="btn btn-primary" id="contactBtn">Get in Touch</button>
+                        <button class="btn btn-primary" id="aiProjectsBtn" type="button">AI Projects</button>
+                        <button class="btn btn-primary" id="publicationsBtn" type="button">Publications</button>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <div class="about-card">
+                        <h3>Experience</h3>
+                        <p>Results-driven Product Manager with 15+ years of experience delivering 
+                        customer-centric products and improving risk management practice through 
+                        strong leadership and data-informed strategy. Led teams at PayPal, JP Morgan, 
+                        and Capital One across enterprise risk, financial crime monitoring, and 
+                        data analytics—saving millions in fraud losses and operational inefficiencies.</p>
+                    </div>
+                    <div class="about-card">
+                        <h3>Professions</h3>
+                        <p class="professions-company"><strong>PayPal</strong></p>
+                        <ul class="professions-list">
+                            <li>Senior Manager of Enterprise Risk Oversight <span>2025 – Present</span></li>
+                            <li>Group Product Manager of Enterprise Risk Management <span>2021 – 2025</span></li>
+                            <li>Senior Product Manager of Global Financial Crime <span>2018 – 2021</span></li>
+                        </ul>
+                    </div>
+                    <div class="about-card">
+                        <h3>Education & Awards</h3>
+                        <p><strong>University of Delaware</strong> — Ph.D. in International Economics 
+                        and Time Series Modeling, M.S. in Econometrics, B.S. in Economics (Magna Cum Laude). 
+                        Publication in Journal of Economics Integration.</p>
+                        <p style="margin-top: 0.75rem;">2023 PayPal Generative AI Hackathon 1st Place • 
+                        2014 Univ. Delaware Best Graduate Instructor</p>
+                    </div>
+                    <div class="about-card">
+                        <h3>Skills</h3>
+                        <ul class="skills-list">
+                            <li>People Management</li>
+                            <li>Product Management</li>
+                            <li>JIRA & Confluence</li>
+                            <li>Python & SQL</li>
+                            <li>Generative AI</li>
+                            <li>Tableau & Power BI</li>
+                            <li>Figma & Miro</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section projects">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <article class="project-card" data-project="1">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="Analytics dashboard and risk management">
+                    </div>
+                    <div class="project-content">
+                        <h3>Enterprise Risk Platform</h3>
+                        <p class="project-description">
+                            Built an enterprise risk platform for 2,000+ risk managers at PayPal. 
+                            Used generative AI to detect policy/control gaps, increasing risk 
+                            documentation by 80% and preventing $MM losses from incidents or 
+                            regulatory fines. Reduced manual risk review by 85%, enabling early 
+                            product releases by 20%+.
+                        </p>
+                        <div class="project-tech">Generative AI • JIRA • Confluence • Risk Management</div>
+                    </div>
+                </article>
+                <article class="project-card" data-project="2">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80" alt="Financial security and fraud detection">
+                    </div>
+                    <div class="project-content">
+                        <h3>AI/ML Financial Crime Monitoring</h3>
+                        <p class="project-description">
+                            Built an AI/ML financial crime monitoring tool that improved customer 
+                            identification and geofencing by 89%, avoiding $MM fraud losses. 
+                            Implemented risk scoring and segmentation for high-risk identities, 
+                            reducing account-takeover and money-laundering losses by $10M annually. 
+                            Launched ML-based web-crawling model for social media threat scanning.
+                        </p>
+                        <div class="project-tech">Python • Machine Learning • Fraud Detection</div>
+                    </div>
+                </article>
+                <article class="project-card" data-project="3">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80" alt="Data monitoring and alerting systems">
+                    </div>
+                    <div class="project-content">
+                        <h3>Emerging Merchant Risk & Threat Monitoring</h3>
+                        <p class="project-description">
+                            Leading engineering and data science team developing risk models, 
+                            alerting systems, and operational workflow for emerging merchant risk 
+                            and social-media threat monitoring at PayPal. Saved $2M+ chargebacks 
+                            through discovering 50+ merchants with potential financial insolvency.
+                        </p>
+                        <div class="project-tech">Data Science • Risk Models • Alerting Systems</div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="contact" class="section contact">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-content">
+                <p class="contact-text">I'd love to hear from you.</p>
+                <button class="btn btn-primary" id="emailBtn">Send Email</button>
+                <p class="contact-note" id="clickMessage"></p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Soodong Park. All rights reserved.</p>
+    </footer>
+
+    <!-- Publications Modal -->
+    <div id="publicationsModal" class="ai-projects-modal" aria-hidden="true">
+        <div class="ai-projects-backdrop" id="publicationsBackdrop"></div>
+        <div class="ai-projects-panel">
+            <div class="ai-projects-header">
+                <h3>Publications</h3>
+                <button type="button" class="ai-projects-close" id="publicationsClose" aria-label="Close">&times;</button>
+            </div>
+            <ul class="ai-projects-list">
+                <li><a href="https://www.e-jei.org/journal/view.php?number=2013600164" target="_blank" rel="noopener">Globalization and Labor Force Participation</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- AI Projects Modal -->
+    <div id="aiProjectsModal" class="ai-projects-modal" aria-hidden="true">
+        <div class="ai-projects-backdrop" id="aiProjectsBackdrop"></div>
+        <div class="ai-projects-panel">
+            <div class="ai-projects-header">
+                <h3>AI Projects</h3>
+                <button type="button" class="ai-projects-close" id="aiProjectsClose" aria-label="Close">&times;</button>
+            </div>
+            <ul class="ai-projects-list">
+                <li><a href="../2026 Winter Olympic/index_winter2026.html" target="_blank" rel="noopener">2026 Winter Olympic Medal</a></li>
+                <li><a href="Baby Tracker/index.html" target="_blank" rel="noopener">Baby Tracker</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Ask Soodong's AI Agent -->
+    <div id="chatbot" class="chatbot" aria-hidden="true">
+        <button class="chatbot-toggle" id="chatbotToggle" aria-label="Open Ask Soodong's AI Agent">
+            <svg class="chat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span class="chatbot-label">Ask Soodong's AI Agent</span>
+        </button>
+        <div class="chatbot-panel" id="chatbotPanel">
+            <div class="chatbot-header">
+                <h3>Ask Soodong's AI Agent</h3>
+                <button class="chatbot-close" id="chatbotClose" aria-label="Close chat">&times;</button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="chat-message bot">
+                    <p>Hi! I'm Soodong's AI Agent, helping with Soodong Park's portfolio. Ask me about product management, risk, AI/ML, or anything on this site!</p>
+                </div>
+            </div>
+            <form class="chatbot-input" id="chatbotForm">
+                <input type="text" id="chatbotInput" placeholder="Ask a question..." autocomplete="off" />
+                <button type="submit" class="chatbot-send" aria-label="Send">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
