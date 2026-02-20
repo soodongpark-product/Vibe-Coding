@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Reviews | Soodong Park</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        (function() {
+            try {
+                var saved = localStorage.getItem('movie-theme');
+                if (saved === 'light' || saved === 'dark') {
+                    document.documentElement.setAttribute('data-theme', saved);
+                }
+            } catch (e) {}
+        })();
+    </script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <a href="../index.html" class="back-link">← Back to Portfolio</a>
+            <h1 class="site-title">Movie Reviews</h1>
+            <p class="site-subtitle">Your reviews with <a href="https://www.rottentomatoes.com/" target="_blank" rel="noopener">Rotten Tomatoes</a> integration</p>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <span class="icon-sun">☀</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+        </header>
+
+        <main class="main-content">
+            <section class="add-review-section">
+                <h2>Add a Review</h2>
+                <form id="review-form" class="review-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="movie-title">Movie Title</label>
+                            <input type="text" id="movie-title" placeholder="e.g. Dune Part Two" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="movie-year">Year</label>
+                            <input type="number" id="movie-year" placeholder="2024" min="1900" max="2030" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="movie-rating">Your Tomatometer % (0–100)</label>
+                        <div class="tomatometer-input">
+                            <input type="number" id="movie-rating" placeholder="e.g. 85" min="0" max="100" step="1" required>
+                            <span class="percent-suffix">%</span>
+                        </div>
+                        <p class="rating-hint">60%+ = Fresh • Below 60% = Rotten</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="movie-poster">Poster URL <span class="optional">(optional)</span></label>
+                        <input type="url" id="movie-poster" placeholder="Paste image URL or use TMDB API key below">
+                    </div>
+                    <div class="form-group">
+                        <label for="movie-review">Your Review</label>
+                        <textarea id="movie-review" rows="4" placeholder="Share your thoughts on the film..."></textarea>
+                    </div>
+                    <details class="api-settings">
+                        <summary>TMDB API key (optional, for auto posters)</summary>
+                        <input type="password" id="tmdb-key" placeholder="Your TMDB API key" autocomplete="off">
+                        <p class="api-hint">Get a free key at <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">themoviedb.org</a></p>
+                    </details>
+                    <button type="submit" class="btn-submit">Add Review</button>
+                </form>
+            </section>
+
+            <section class="reviews-section">
+                <div class="section-header">
+                    <h2>My Reviews</h2>
+                    <div class="filter-controls">
+                        <label>
+                            <input type="radio" name="sort" value="newest" checked> Newest first
+                        </label>
+                        <label>
+                            <input type="radio" name="sort" value="rating"> Highest rated
+                        </label>
+                    </div>
+                </div>
+                <div class="reviews-list" id="reviews-list">
+                    <!-- Reviews rendered by JS -->
+                </div>
+                <div class="empty-state" id="empty-state">
+                    <div class="empty-icon">🎬</div>
+                    <p>No reviews yet. Add your first one above!</p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>Movie Reviews • <a href="../index.html">Soodong Park Portfolio</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

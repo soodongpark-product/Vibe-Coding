@@ -1,0 +1,53 @@
+---
+description: Deploy and push code from this project to the Vibe-Coding GitHub repository
+alwaysApply: true
+---
+
+# Deploy to GitHub
+
+When the user asks to deploy, push, or publish code to GitHub, use this workflow.
+
+## Repository
+
+- **URL**: https://github.com/soodongpark-product/Vibe-Coding.git
+- **Branch**: main
+- **Project root**: `c:\Users\soodo\Cursor Projects`
+
+## Git Path
+
+Git may not be in PATH. Use the full path:
+```
+C:\Program Files\Git\bin\git.exe
+```
+
+## Deployment Commands
+
+1. **Stage changes**
+   ```powershell
+   cd "c:\Users\soodo\Cursor Projects"; & "C:\Program Files\Git\bin\git.exe" add .
+   ```
+
+2. **Commit** (use a descriptive message)
+   ```powershell
+   & "C:\Program Files\Git\bin\git.exe" commit -m "Your commit message"
+   ```
+
+3. **Push**
+   ```powershell
+   & "C:\Program Files\Git\bin\git.exe" push origin main
+   ```
+
+## One-liner for quick deploy
+
+```powershell
+cd "c:\Users\soodo\Cursor Projects"; & "C:\Program Files\Git\bin\git.exe" add .; & "C:\Program Files\Git\bin\git.exe" commit -m "Update: describe changes"; & "C:\Program Files\Git\bin\git.exe" push origin main
+```
+
+## Notes
+
+- Remote `origin` is already configured for this repo
+- If commit fails with "Author identity unknown", set locally:
+  ```
+  git config user.email "soodongpark-product@users.noreply.github.com"
+  git config user.name "soodongpark-product"
+  ```
